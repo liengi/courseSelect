@@ -12,6 +12,10 @@ Vue.use(VueRouter);
 let router = new VueRouter({
   routes: [
     {
+      path: "/",
+      redirect: "/home",
+    },
+    {
       path: "/home",
       component: () => import("@/layout/index.vue"),
       meta: { title: "首页" },
