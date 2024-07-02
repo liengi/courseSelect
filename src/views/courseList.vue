@@ -30,15 +30,12 @@
       <el-table-column label="上课时段" prop="time"> </el-table-column>
       <el-table-column label="上课地点" prop="position"> </el-table-column>
       <el-table-column align="center">
-        <!-- <template slot="header" slot-scope="scope">
-          <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
-        </template> -->
         <template slot-scope="scope">
           <el-button
             v-if="scope.row.status == 0"
             size="mini"
             type="primary"
-            @click="handleSelect(scope.$index, scope.row)"
+            @click="handleSelect(scope.$index, scope.row, scope)"
             :disabled="scope.row.status == 1"
             >选课</el-button
           >
@@ -56,6 +53,7 @@
 </template>
 
 <script>
+import tableData from "@/utils/courselist.json";
 export default {
   data() {
     return {
@@ -65,298 +63,25 @@ export default {
       search: "",
     };
   },
-
-  mounted() {
+  beforeMount() {
+    console.log(tableData);
     const storedTableData = localStorage.getItem("tableData");
-    if (storedTableData) {
-      this.tableData = JSON.parse(storedTableData);
+    if (!storedTableData) {
+      this.tableData = tableData;
+      localStorage.setItem("tableData", JSON.stringify(tableData));
     } else {
-      this.tableData = [
-        {
-          name: "JavaScript",
-          descript: "JavaScript 基础",
-          point: "3",
-          teacher: "王一二",
-          time: "周一 上午",
-          position: "教学楼 101",
-          status: 0,
-        },
-        {
-          name: "JavaScript",
-          descript: "JavaScript 基础",
-          point: "3",
-          teacher: "王一二",
-          time: "周一 上午",
-          position: "教学楼 101",
-          status: 0,
-        },
-        {
-          name: "JavaScript",
-          descript: "JavaScript 基础",
-          point: "3",
-          teacher: "王一二",
-          time: "周一 上午",
-          position: "教学楼 101",
-          status: 0,
-        },
-        {
-          name: "JavaScript",
-          descript: "JavaScript 基础",
-          point: "3",
-          teacher: "王一二",
-          time: "周一 上午",
-          position: "教学楼 101",
-          status: 0,
-        },
-        {
-          name: "JavaScript",
-          descript: "JavaScript 基础",
-          point: "3",
-          teacher: "王一二",
-          time: "周一 上午",
-          position: "教学楼 101",
-          status: 0,
-        },
-        {
-          name: "JavaScript",
-          descript: "JavaScript 基础",
-          point: "3",
-          teacher: "王一二",
-          time: "周一 上午",
-          position: "教学楼 101",
-          status: 0,
-        },
-        {
-          name: "JavaScript",
-          descript: "JavaScript 基础",
-          point: "3",
-          teacher: "王一二",
-          time: "周一 上午",
-          position: "教学楼 101",
-          status: 0,
-        },
-        {
-          name: "JavaScript",
-          descript: "JavaScript 基础",
-          point: "3",
-          teacher: "王一二",
-          time: "周一 上午",
-          position: "教学楼 101",
-          status: 0,
-        },
-        {
-          name: "JavaScript",
-          descript: "JavaScript 基础",
-          point: "3",
-          teacher: "王一二",
-          time: "周一 上午",
-          position: "教学楼 101",
-          status: 0,
-        },
-        {
-          name: "JavaScript",
-          descript: "JavaScript 基础",
-          point: "3",
-          teacher: "王一二",
-          time: "周一 上午",
-          position: "教学楼 101",
-          status: 0,
-        },
-        {
-          name: "JavaScript",
-          descript: "JavaScript 基础",
-          point: "3",
-          teacher: "王一二",
-          time: "周一 上午",
-          position: "教学楼 101",
-          status: 0,
-        },
-        {
-          name: "JavaScript",
-          descript: "JavaScript 基础",
-          point: "3",
-          teacher: "王一二",
-          time: "周一 上午",
-          position: "教学楼 101",
-          status: 0,
-        },
-        {
-          name: "JavaScript",
-          descript: "JavaScript 基础",
-          point: "3",
-          teacher: "王一二",
-          time: "周一 上午",
-          position: "教学楼 101",
-          status: 0,
-        },
-        {
-          name: "JavaScript",
-          descript: "JavaScript 基础",
-          point: "3",
-          teacher: "王一二",
-          time: "周一 上午",
-          position: "教学楼 101",
-          status: 0,
-        },
-        {
-          name: "JavaScript",
-          descript: "JavaScript 基础",
-          point: "3",
-          teacher: "王一二",
-          time: "周一 上午",
-          position: "教学楼 101",
-          status: 0,
-        },
-      ];
-      localStorage.setItem(
-        "tableData",
-        JSON.stringify([
-          {
-            name: "JavaScript",
-            descript: "JavaScript 基础",
-            point: "3",
-            teacher: "王一二",
-            time: "周一 上午",
-            position: "教学楼 101",
-            status: 0,
-          },
-          {
-            name: "JavaScript",
-            descript: "JavaScript 基础",
-            point: "3",
-            teacher: "王一二",
-            time: "周一 上午",
-            position: "教学楼 101",
-            status: 0,
-          },
-          {
-            name: "JavaScript",
-            descript: "JavaScript 基础",
-            point: "3",
-            teacher: "王一二",
-            time: "周一 上午",
-            position: "教学楼 101",
-            status: 0,
-          },
-          {
-            name: "JavaScript",
-            descript: "JavaScript 基础",
-            point: "3",
-            teacher: "王一二",
-            time: "周一 上午",
-            position: "教学楼 101",
-            status: 0,
-          },
-          {
-            name: "JavaScript",
-            descript: "JavaScript 基础",
-            point: "3",
-            teacher: "王一二",
-            time: "周一 上午",
-            position: "教学楼 101",
-            status: 0,
-          },
-          {
-            name: "JavaScript",
-            descript: "JavaScript 基础",
-            point: "3",
-            teacher: "王一二",
-            time: "周一 上午",
-            position: "教学楼 101",
-            status: 0,
-          },
-          {
-            name: "JavaScript",
-            descript: "JavaScript 基础",
-            point: "3",
-            teacher: "王一二",
-            time: "周一 上午",
-            position: "教学楼 101",
-            status: 0,
-          },
-          {
-            name: "JavaScript",
-            descript: "JavaScript 基础",
-            point: "3",
-            teacher: "王一二",
-            time: "周一 上午",
-            position: "教学楼 101",
-            status: 0,
-          },
-          {
-            name: "JavaScript",
-            descript: "JavaScript 基础",
-            point: "3",
-            teacher: "王一二",
-            time: "周一 上午",
-            position: "教学楼 101",
-            status: 0,
-          },
-          {
-            name: "JavaScript",
-            descript: "JavaScript 基础",
-            point: "3",
-            teacher: "王一二",
-            time: "周一 上午",
-            position: "教学楼 101",
-            status: 0,
-          },
-          {
-            name: "JavaScript",
-            descript: "JavaScript 基础",
-            point: "3",
-            teacher: "王一二",
-            time: "周一 上午",
-            position: "教学楼 101",
-            status: 0,
-          },
-          {
-            name: "JavaScript",
-            descript: "JavaScript 基础",
-            point: "3",
-            teacher: "王一二",
-            time: "周一 上午",
-            position: "教学楼 101",
-            status: 0,
-          },
-          {
-            name: "JavaScript",
-            descript: "JavaScript 基础",
-            point: "3",
-            teacher: "王一二",
-            time: "周一 上午",
-            position: "教学楼 101",
-            status: 0,
-          },
-          {
-            name: "JavaScript",
-            descript: "JavaScript 基础",
-            point: "3",
-            teacher: "王一二",
-            time: "周一 上午",
-            position: "教学楼 101",
-            status: 0,
-          },
-          {
-            name: "JavaScript",
-            descript: "JavaScript 基础",
-            point: "3",
-            teacher: "王一二",
-            time: "周一 上午",
-            position: "教学楼 101",
-            status: 0,
-          },
-        ])
-      );
+      this.tableData = JSON.parse(storedTableData);
     }
   },
+
   methods: {
     handleChoose() {
       this.dialogVisible = false;
       this.tableData[this.selectindex].status = 1;
       localStorage.setItem("tableData", JSON.stringify(this.tableData));
     },
-    handleSelect(index, row) {
+    handleSelect(index, row, scope) {
+      console.log(scope);
       this.dialogVisible = true;
       this.selectindex = index;
     },
